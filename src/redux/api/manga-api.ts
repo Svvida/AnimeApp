@@ -19,6 +19,7 @@ export const mangaApi = Api.injectEndpoints({
         url: `/manga/${id}/full`,
       }),
       providesTags: ['manga'],
+      transformResponse: (response: { data: MangaDetail }) => response.data,
     }),
 
     // Get random manga
@@ -60,7 +61,7 @@ export const mangaApi = Api.injectEndpoints({
         }
 
         const queryString = queryParams.toString();
-        return `/manga/top${queryString ? `?${queryString}` : ''}`;
+        return `/top/manga${queryString ? `?${queryString}` : ''}`;
       },
       providesTags: ['manga'],
     }),

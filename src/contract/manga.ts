@@ -23,8 +23,8 @@ export interface MangaPublishedDate {
 }
 
 export interface Manga extends BaseMedia {
-  chapters: number;
-  volumes: number;
+  chapters?: number;
+  volumes?: number;
   publishing: boolean;
   published: MangaPublishedDate;
   background: string;

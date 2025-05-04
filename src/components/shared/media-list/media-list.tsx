@@ -6,7 +6,8 @@ import { FilterOption, MediaFilter } from '../media-filter/media-filter';
 import { Paginator } from '../media-paginator/media-paginator';
 import { animeFilters, mangaFilters } from '@/constants/mediaFilters';
 import { Pagination } from '@/contract/general';
-import { BaseMedia, MediaType } from '@/contract/media';
+import { BaseMedia } from '@/contract/media';
+import { MediaType } from '@/types/media-types';
 
 interface MediaListProps<F extends string | undefined> {
   title: string;

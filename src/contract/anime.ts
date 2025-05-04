@@ -27,7 +27,7 @@ export interface Anime extends BaseMedia {
   };
   title_synonyms: string[];
   source: string;
-  episodes: number;
+  episodes?: number;
   airing: boolean;
   aired: AnimeAired;
   duration: string;
@@ -40,8 +40,8 @@ export interface Anime extends BaseMedia {
     timezone: string;
     string: string;
   };
-  producers?: MediaEntity[];
-  licensors?: MediaEntity[];
+  producers: MediaEntity[];
+  licensors: MediaEntity[];
   studios: MediaEntity[];
 }
 

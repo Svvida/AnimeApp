@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import { View, Text, FlatList, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { RecommendationCard } from './recommendation-card';
 import { RecommendationEntry, RecommendationItem } from '@/contract/general';
 
@@ -8,7 +10,7 @@ interface RecommendationListProps {
   title: string;
   data?: RecommendationItem[];
   isLoading: boolean;
-  error?: any;
+  error?: FetchBaseQueryError | SerializedError | undefined;
   type: 'anime' | 'manga';
   onViewAllPress?: () => void;
 }

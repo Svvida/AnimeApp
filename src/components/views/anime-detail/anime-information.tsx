@@ -8,7 +8,7 @@ export const AnimeInformation = ({ animeDetail }: { animeDetail: AnimeDetail }) 
       <Text style={styles.sectionTitle}>Information</Text>
       <View style={styles.infoGrid}>
         <InfoItem label="Status" value={animeDetail.status} />
-        <InfoItem label="Episodes" value={animeDetail.episodes} />
+        <InfoItem label="Episoded" value={animeDetail.episodes != null ? animeDetail.episodes : 'Unknown'} />
         <InfoItem label="Duration" value={animeDetail.duration} />
         <InfoItem label="Rating" value={animeDetail.rating} />
         <InfoItem label="Season" value={`${animeDetail.season.charAt(0).toUpperCase() + animeDetail.season.slice(1)} ${animeDetail.year}`} />

@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { MediaList } from '@/components/shared/media-list/media-list';
 import { MangaType } from '@/constants/mediaFilters';

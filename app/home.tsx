@@ -44,25 +44,17 @@ const HomeScreen: React.FC = () => {
 
   // Handle random anime button press
   const handleRandomAnime = async () => {
-    try {
-      const { data } = await fetchRandomAnime();
-      if (data?.mal_id) {
-        router.push(`/anime-detail?id=${data.mal_id}`);
-      }
-    } catch (error) {
-      console.error('Error fetching random anime:', error);
+    const { data } = await fetchRandomAnime();
+    if (data?.mal_id) {
+      router.push(`/anime-detail/${data.mal_id}`);
     }
   };
 
   // Handle random manga button press
   const handleRandomManga = async () => {
-    try {
-      const { data } = await fetchRandomManga();
-      if (data?.mal_id) {
-        router.push(`/manga-detail?id=${data.mal_id}`);
-      }
-    } catch (error) {
-      console.error('Error fetching random manga:', error);
+    const { data } = await fetchRandomManga();
+    if (data?.mal_id) {
+      router.push(`/manga-detail/${data.mal_id}`);
     }
   };
 
@@ -73,7 +65,7 @@ const HomeScreen: React.FC = () => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} colors={['#6200ee']} />}
       >
         <View style={styles.welcomeSection}>
-          <Text style={styles.welcomeTitle}>Welcome to GoodieHabbi</Text>
+          <Text style={styles.welcomeTitle}>Welcome to MyAnime!</Text>
           <Text style={styles.welcomeSubtitle}>Track your anime and manga journey</Text>
 
           <View style={styles.randomButtonsContainer}>

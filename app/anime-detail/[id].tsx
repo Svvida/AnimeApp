@@ -60,10 +60,8 @@ function AnimeDetailContent() {
 
             <EntityList title="Studios" entities={animeDetailData.studios} />
             <EntityList title="Genres" entities={animeDetailData.genres} />
-            {animeDetailData.producers && animeDetailData.themes.length > 0 && <EntityList title="Themes" entities={animeDetailData.themes} />}
-            {animeDetailData.producers && animeDetailData.producers.length > 0 && (
-              <EntityList title="Producers" entities={animeDetailData.producers} />
-            )}
+            {animeDetailData.themes.length > 0 && <EntityList title="Themes" entities={animeDetailData.themes} />}
+            {animeDetailData.producers.length > 0 && <EntityList title="Producers" entities={animeDetailData.producers} />}
 
             <View style={styles.buttonContainer}>
               {animeDetailData.trailer.url && <DetailButton icon="logo-youtube" text="Watch trailer" onPress={handleOpenTrailer} />}

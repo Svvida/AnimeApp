@@ -1,5 +1,6 @@
 import { TouchableOpacity, StyleSheet, View, Text, Image } from 'react-native';
-import { BaseMedia, MediaType } from '@/contract/media';
+import { BaseMedia } from '@/contract/media';
+import { MediaType } from '@/types/media-types';
 
 interface MediaCardProps {
   item: BaseMedia;

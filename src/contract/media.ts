@@ -35,7 +35,7 @@ export interface BaseMedia {
   members: number;
   favorites: number;
   synopsis: string;
-  genres: MediaEntity[]; // renamed below
+  genres: MediaEntity[];
   explicit_genres: MediaEntity[];
   themes: MediaEntity[];
   demographics: MediaEntity[];
