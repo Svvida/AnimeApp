@@ -45,9 +45,9 @@ export const MediaList = <F extends string | undefined>({
 
   function navigateToDetail(router: ReturnType<typeof useRouter>, type: MediaType, id: number) {
     if (type === 'anime') {
-      router.push({ pathname: '/anime-detail', params: { id } });
+      router.push(`/anime-detail/${id}`);
     } else {
-      router.push({ pathname: '/manga-detail', params: { id } });
+      router.push(`/manga-detail/${id}`);
     }
   }
 

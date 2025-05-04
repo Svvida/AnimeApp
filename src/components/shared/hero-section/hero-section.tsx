@@ -53,12 +53,12 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 8,
     marginRight: 16,
+    marginBottom: 20,
     borderWidth: 2,
     borderColor: '#fff',
   },
   titleContainer: {
     flex: 1,
-    paddingTop: 40,
   },
   title: {
     fontSize: 20,

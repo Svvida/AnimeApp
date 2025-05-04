@@ -71,6 +71,7 @@ export const animeApi = Api.injectEndpoints({
         url: `/anime/${id}/full`,
       }),
       providesTags: ['anime'],
+      transformResponse: (response: { data: AnimeDetail }) => response.data,
     }),
 
     // Get anime recommendations

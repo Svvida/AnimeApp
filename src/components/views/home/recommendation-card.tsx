@@ -13,15 +13,9 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({ item, ty
 
   const handlePress = () => {
     if (type === 'anime') {
-      router.push({
-        pathname: '/anime-detail',
-        params: { id: item.mal_id },
-      });
+      router.push(`/anime-detail/${item.mal_id}`);
     } else {
-      router.push({
-        pathname: '/manga-detail',
-        params: { id: item.mal_id },
-      });
+      router.push(`/manga-detail/${item.mal_id}`);
     }
   };
 
