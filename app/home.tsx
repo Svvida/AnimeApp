@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import { useRouter } from 'expo-router';
-import Button from '@/components/shared/button/button';
+import { DetailButton } from '@/components/shared/detail-button/detail-button';
 import { RecommendationList } from '@/components/views/home/recommendation-list';
 import { useGetAnimeRecommendationsQuery, useGetRandomAnimeQuery } from '@/redux/api/anime-api';
 import { useGetMangaRecommendationsQuery, useGetRandomMangaQuery } from '@/redux/api/manga-api';
@@ -69,8 +69,10 @@ const HomeScreen: React.FC = () => {
           <Text style={styles.welcomeSubtitle}>Track your anime and manga journey</Text>
 
           <View style={styles.randomButtonsContainer}>
-            <Button label="Random Anime" onPress={handleRandomAnime} styleType="accent" className="flex-1 mr-2" />
-            <Button label="Random Manga" onPress={handleRandomManga} styleType="primary" className="flex-1 ml-2" />
+            {/* <Button label="Random Anime" onPress={handleRandomAnime} styleType="accent" className="flex-1 mr-2" />
+            <Button label="Random Manga" onPress={handleRandomManga} styleType="primary" className="flex-1 ml-2" /> */}
+            <DetailButton text="Random Anime" onPress={handleRandomAnime} style={{ flex: 1, marginRight: 8 }} />
+            <DetailButton text="Random Manga" onPress={handleRandomManga} style={{ flex: 1, marginLeft: 8 }} />
           </View>
         </View>
 
@@ -120,7 +122,8 @@ const styles = StyleSheet.create({
   },
   randomButtonsContainer: {
     flexDirection: 'row',
-    marginTop: 16,
+    marginTop: 10,
+    justifyContent: 'space-around',
   },
   spacer: {
     height: 40,

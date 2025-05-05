@@ -9,6 +9,7 @@ import {
 } from '../../contract/anime';
 import Api from '../config/api';
 import { ApiResponse } from '@/contract/general';
+import { AnimeReviewsQueryParams, ReviewResponse } from '@/contract/review';
 
 export const animeApi = Api.injectEndpoints({
   endpoints: builder => ({
@@ -91,9 +92,34 @@ export const animeApi = Api.injectEndpoints({
       }),
       providesTags: ['anime'],
     }),
+
+    getAnimeReviews: builder.query<ReviewResponse, AnimeReviewsQueryParams | void>({
+      query: (params?: AnimeReviewsQueryParams) => {
+        const queryParams = new URLSearchParams();
+
+        // Only append if the value is explicitly true or false
+        if (params?.preliminary === true || params?.preliminary === false) {
+          queryParams.append('preliminary', params.preliminary.toString());
+        }
+        if (params?.spoilers === true || params?.spoilers === false) {
+          queryParams.append('spoilers', params.spoilers.toString());
+        }
+        // No page parameter
+
+        const queryString = queryParams.toString();
+        return `/reviews/anime${queryString ? `?${queryString}` : ''}`;
+      },
+      providesTags: ['anime'],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetCurrentSeasonAnimeQuery, useSearchAnimeQuery, useGetAnimeByIdQuery, useGetAnimeRecommendationsQuery, useGetRandomAnimeQuery } =
-  animeApi;
+export const {
+  useGetCurrentSeasonAnimeQuery,
+  useSearchAnimeQuery,
+  useGetAnimeByIdQuery,
+  useGetAnimeRecommendationsQuery,
+  useGetRandomAnimeQuery,
+  useGetAnimeReviewsQuery,
+} = animeApi;

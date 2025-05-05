@@ -1,16 +1,16 @@
-import { ViewStyle, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, ViewStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 interface DetailButtonProps {
   onPress: () => void;
-  icon: keyof typeof Ionicons.glyphMap;
+  icon?: keyof typeof Ionicons.glyphMap;
   text: string;
   style?: ViewStyle;
 }
 
-export const DetailButton = ({ onPress, icon, text, style }: DetailButtonProps) => (
-  <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
-    <Ionicons name={icon} size={18} color="#fff" style={styles.icon} />
+export const DetailButton = ({ onPress, icon, text }: DetailButtonProps) => (
+  <TouchableOpacity style={styles.button} onPress={onPress}>
+    {icon && <Ionicons name={icon} size={18} color="#fff" style={styles.icon} />}
     <Text style={styles.buttonText}>{text}</Text>
   </TouchableOpacity>
 );

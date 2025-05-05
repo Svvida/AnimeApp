@@ -5,6 +5,7 @@ import { DrawerContentScrollView } from '@react-navigation/drawer';
 import AnimeConfig from './routes-configs/anime-config';
 import HomeConfig from './routes-configs/home-config';
 import MangaConfig from './routes-configs/manga-config';
+import ReviewsConfig from './routes-configs/review-config';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 
 export const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
@@ -22,6 +23,7 @@ export const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props 
           <HomeConfig />
           <AnimeConfig />
           <MangaConfig />
+          <ReviewsConfig />
         </View>
       </View>
     </DrawerContentScrollView>

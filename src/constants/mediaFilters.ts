@@ -1,3 +1,12 @@
+export interface FilterOption<T> {
+  value: T | undefined;
+  label: string;
+}
+
+export type AnimeType = 'tv' | 'movie' | 'ova' | 'special' | 'ona' | 'music';
+export type MangaType = 'manga' | 'novel' | 'oneshot' | 'doujin' | 'manhwa' | 'manhua';
+export type ReviewFilterType = 'all' | 'spoilers' | 'no-spoilers' | 'preliminary' | 'final';
+
 export const animeFilters: FilterOption<AnimeType>[] = [
   { value: undefined, label: 'All' },
   { value: 'tv', label: 'TV' },
@@ -18,10 +27,10 @@ export const mangaFilters: FilterOption<MangaType>[] = [
   { value: 'manhua', label: 'Manhua' },
 ];
 
-export interface FilterOption<T> {
-  value: T | undefined;
-  label: string;
-}
-
-export type AnimeType = 'tv' | 'movie' | 'ova' | 'special' | 'ona' | 'music';
-export type MangaType = 'manga' | 'novel' | 'oneshot' | 'doujin' | 'manhwa' | 'manhua';
+export const reviewFilters: FilterOption<ReviewFilterType>[] = [
+  { value: 'all', label: 'All Reviews' },
+  { value: 'spoilers', label: 'With Spoilers' },
+  { value: 'no-spoilers', label: 'No Spoilers' },
+  { value: 'preliminary', label: 'Preliminary' },
+  { value: 'final', label: 'Final' },
+];

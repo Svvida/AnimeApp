@@ -18,7 +18,7 @@
       "userInterfaceStyle": "light",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/icon.png",
-        "backgroundColor": "#316AC9"
+        "backgroundColor": "#7043b0"
       },
       "package": "com.swida.UniversityMobile"
     },
@@ -33,7 +33,7 @@
         "expo-splash-screen",
         {
           "image": "./src/assets/images/splash.png",
-          "backgroundColor": "#316AC9",
+          "backgroundColor": "#7043b0",
           "imageWidth": 600,
           "resizeMode": "cover"
         }
