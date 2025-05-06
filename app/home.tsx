@@ -6,7 +6,7 @@ import { RecommendationList } from '@/components/views/home/recommendation-list'
 import { useGetAnimeRecommendationsQuery, useGetRandomAnimeQuery } from '@/redux/api/anime-api';
 import { useGetMangaRecommendationsQuery, useGetRandomMangaQuery } from '@/redux/api/manga-api';
 
-const HomeScreen: React.FC = () => {
+const HomeScreen = () => {
   const router = useRouter();
   const [refreshing, setRefreshing] = React.useState(false);
 

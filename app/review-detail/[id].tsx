@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'; // Import useRef, useState
-import { StyleSheet, View, Text, Image, ScrollView, Linking } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { DetailButton } from '@/components/shared/detail-button/detail-button';
 import { Header } from '@/components/shared/detail-header/detail-header';
@@ -10,96 +10,62 @@ import { ReactionDisplay } from '@/components/views/reviews/reaction-display';
 import { useTypedDispatch, useTypedSelector } from '@/hooks/use-store-hooks';
 import { useSnackbar } from '@/providers/snackbar/snackbar-context';
 import { selectReviewForDetail, clearSelectedReviewForDetail } from '@/redux/slices/review-slice';
+import { openExternalLink } from '@/utils/linking';
 import { safeDateFormat } from '@/utils/utils'; // Adjust path
 
-// Helper to open URLs safely (same as before)
-const openUrl = async (url: string, showSnackbar: (opts: any) => void) => {
-  // ... (implementation remains the same)
-  try {
-    const supported = await Linking.canOpenURL(url);
-    if (supported) {
-      await Linking.openURL(url);
-    } else {
-      showSnackbar({ text: `Cannot open URL: ${url}`, variant: 'error' });
-    }
-  } catch (error) {
-    console.error('Failed to open URL:', error);
-    showSnackbar({ text: 'Failed to open link.', variant: 'error' });
-  }
-};
-export default function ReviewDetailScreen() {
+const ReviewDetailView = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const dispatch = useTypedDispatch();
   const { showSnackbar } = useSnackbar();
 
-  // Select review from Redux store
   const reviewFromStore = useTypedSelector(selectReviewForDetail);
 
   const reviewId = id ? parseInt(id, 10) : undefined;
 
-  // State to track if the component has finished its initial mount and effect cycle
   const [isReady, setIsReady] = useState(false);
 
   // Check if the currently stored review matches the ID from the URL
   const review = reviewFromStore && reviewFromStore.mal_id === reviewId ? reviewFromStore : null;
 
   useEffect(() => {
-    // Mark as ready after the first render.
-    // This helps prevent showing the "not found" error prematurely
-    // if Redux state updates slightly after the initial mount.
-    const timer = setTimeout(() => setIsReady(true), 0); // Set ready on next tick
+    const timer = setTimeout(() => setIsReady(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
 
-    // IMPORTANT: Remove the cleanup dispatch from here
-    return () => clearTimeout(timer); // Cleanup timer on unmount
-  }, []); // Run only once on mount
-
-  // --- Handlers ---
   const handleBack = () => {
-    dispatch(clearSelectedReviewForDetail()); // <-- Clear state BEFORE navigating
-    // router.back(); // <-- Replace this
-    router.push('/reviews'); // <-- Explicitly navigate to the list route
+    dispatch(clearSelectedReviewForDetail()); // Clear state BEFORE navigating
+    router.push('/reviews');
   };
 
-  // --- Render Logic ---
   if (!reviewId) {
-    // Use explicit navigation for the error button too
     return <ErrorState message="Review ID missing." onBack={() => router.push('/reviews')} />;
   }
 
-  // Show Loading state initially until isReady is true OR review is found
   if (!isReady && !review) {
     return <LoadingState />;
   }
 
-  // If ready and still no matching review, show error
   if (isReady && !review) {
     return (
       <ErrorState message="Review data not found." subtext="Please navigate back to the list and select a review." onBack={handleBack} /> // Use handleBack here too
     );
   }
 
-  // --- If we reach here, 'review' is valid and matches 'reviewId' ---
-  // Since the above checks passed, we can safely assert review is not null
   const currentReview = review!;
-
-  // --- If we reach here, 'review' is valid and matches 'reviewId' ---
 
   return (
     <>
-      <Header onBack={handleBack} title={currentReview.entry.title} />
+      <Header onBack={handleBack} title={'Review of: ' + currentReview.entry.title} />
       <Stack.Screen options={{ title: `Review by ${currentReview.user.username}` }} />
 
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        {/* --- Anime Header --- */}
         <DetailButton
-          text={`View ${currentReview.entry.title} on MAL`}
+          text={`View anime on MAL`}
           icon="open-outline"
-          onPress={async () => openUrl(currentReview.entry.url, showSnackbar)}
-          style={styles.animeLinkButton}
+          onPress={async () => await openExternalLink(currentReview.entry.url, showSnackbar)}
         />
         <View style={styles.animeHeader}>
-          {/* ... rest of anime header JSX ... */}
           <Image
             source={{ uri: currentReview.entry.images.webp.large_image_url || currentReview.entry.images.jpg.large_image_url }}
             style={styles.animeImage}
@@ -107,9 +73,7 @@ export default function ReviewDetailScreen() {
           <View style={styles.animeHeaderText}>
             <Text style={styles.animeTitle}>{currentReview.entry.title}</Text>
             <InfoItem label="Score" value={`${currentReview.score}/10`} />
-            {/* Tags */}
             <View style={styles.tagsContainer}>
-              {/* ... tag mapping ... */}
               {currentReview.tags.map(tag => (
                 <View key={tag} style={[styles.tag, styles.generalTag]}>
                   <Text style={[styles.tagText, styles.generalTagText]}>{tag}</Text>
@@ -129,15 +93,12 @@ export default function ReviewDetailScreen() {
           </View>
         </View>
 
-        {/* --- User & Review Info --- */}
         <View style={styles.section}>
-          {/* ... rest of user/review info JSX ... */}
           <Text style={styles.sectionTitle}>Reviewer Details</Text>
           <DetailButton
             text={`View ${currentReview.user.username}'s Profile`}
             icon="person-circle-outline"
-            onPress={async () => openUrl(currentReview.user.url, showSnackbar)}
-            style={styles.userLinkButton}
+            onPress={async () => await openExternalLink(currentReview.user.url, showSnackbar)}
           />
           <View style={styles.userInfoContainer}>
             <Image source={{ uri: currentReview.user.images.webp.image_url || currentReview.user.images.jpg.image_url }} style={styles.userAvatar} />
@@ -152,21 +113,16 @@ export default function ReviewDetailScreen() {
           <DetailButton
             text="View Original Review on MAL"
             icon="open-outline"
-            onPress={async () => openUrl(currentReview.url, showSnackbar)}
-            style={styles.reviewLinkButton}
+            onPress={async () => await openExternalLink(currentReview.url, showSnackbar)}
           />
         </View>
 
-        {/* --- Review Text --- */}
         <View style={styles.section}>
-          {/* ... rest of review text JSX ... */}
           <Text style={styles.sectionTitle}>Full Review</Text>
           <Text style={styles.reviewText}>{currentReview.review}</Text>
         </View>
 
-        {/* --- Reactions --- */}
         <View style={styles.section}>
-          {/* ... rest of reactions JSX ... */}
           <Text style={styles.sectionTitle}>Reactions</Text>
           <View style={styles.reactionsGrid}>
             <ReactionDisplay label="Overall" count={currentReview.reactions.overall} iconName="star-outline" />
@@ -182,9 +138,8 @@ export default function ReviewDetailScreen() {
       </ScrollView>
     </>
   );
-}
+};
 
-// Styles (keep the styles defined previously)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -205,11 +160,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
     paddingBottom: 6,
-  },
-  animeLinkButton: {
-    // Example style for button placement
-    marginBottom: 10,
-    alignSelf: 'flex-start',
   },
   animeHeader: {
     flexDirection: 'row',
@@ -234,16 +184,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#212529',
     marginBottom: 8,
-  },
-  userLinkButton: {
-    // Example style for button placement
-    marginBottom: 10,
-    alignSelf: 'flex-start',
-  },
-  reviewLinkButton: {
-    // Example style for button placement
-    marginTop: 10,
-    alignSelf: 'flex-start',
   },
   userInfoContainer: {
     flexDirection: 'row',
@@ -322,25 +262,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap', // Allow reactions to wrap
     marginTop: 10,
   },
-  // ... other styles like reactionChip etc ...
-  reactionChip: {
-    // Assuming ReactionDisplay uses this style
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f0f0f0',
-    borderRadius: 16,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    marginRight: 8,
-    marginBottom: 8,
-  },
-  reactionIcon: {
-    // Assuming ReactionDisplay uses this style
-    marginRight: 5,
-  },
-  reactionText: {
-    // Assuming ReactionDisplay uses this style
-    fontSize: 13,
-    color: '#444',
-  },
 });
+
+export default ReviewDetailView;

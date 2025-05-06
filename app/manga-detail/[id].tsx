@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet, Linking } from 'react-native';
-import { Provider } from 'react-redux';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { DetailButton } from '@/components/shared/detail-button/detail-button';
@@ -11,10 +10,12 @@ import { HeroSection } from '@/components/shared/hero-section/hero-section';
 import { LoadingState } from '@/components/shared/loading-state/loading-state';
 import { Synopsis } from '@/components/shared/synopsis/synopsis';
 import { MangaInformation } from '@/components/views/manga-detail/manga-information';
+import { useSnackbar } from '@/providers/snackbar/snackbar-context';
 import { useGetMangaByIdQuery } from '@/redux/api/manga-api';
-import { store } from '@/redux/config/store';
+import { openExternalLink } from '@/utils/linking';
 
-function MangaDetailContent() {
+const MangaDetailView = () => {
+  const { showSnackbar } = useSnackbar();
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const mangaId = typeof id === 'string' ? parseInt(id, 10) : undefined;
@@ -26,55 +27,42 @@ function MangaDetailContent() {
   } = useGetMangaByIdQuery(mangaId ? { id: mangaId } : skipToken);
 
   const handleBack = () => {
-    router.back();
+    router.push('/manga');
   };
 
-  const handleOpenLink = () => {
-    if (mangaDetailData?.url) {
-      Linking.openURL(mangaDetailData.url);
-    }
-  };
+  if (mangaDetailLoading) return <LoadingState />;
+  if (mangaDetailError) return <ErrorState message="Failed to load anime details" subtext="Please try again later" onBack={handleBack} />;
+  if (!mangaDetailData) return <ErrorState message="Anime not found" onBack={handleBack} />;
 
   return (
     <View style={styles.container}>
-      <Header onBack={handleBack} title={mangaDetailData?.title_english || mangaDetailData?.title} />
+      <Header onBack={handleBack} title={mangaDetailData.title_english || mangaDetailData.title} />
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+        <HeroSection media={mangaDetailData} />
 
-      {mangaDetailLoading ? (
-        <LoadingState />
-      ) : mangaDetailError ? (
-        <ErrorState message="Failed to load manga details" subtext="Please try again later" onBack={handleBack} />
-      ) : mangaDetailData ? (
-        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-          <HeroSection media={mangaDetailData} />
+        <View style={styles.contentContainer}>
+          {mangaDetailData.synopsis && <Synopsis synopsis={mangaDetailData.synopsis} />}
 
-          <View style={styles.contentContainer}>
-            {mangaDetailData.synopsis && <Synopsis synopsis={mangaDetailData.synopsis} />}
+          <MangaInformation mangaDetail={mangaDetailData} />
 
-            <MangaInformation mangaDetail={mangaDetailData} />
+          <EntityList title="Genres" entities={mangaDetailData.genres} />
+          {mangaDetailData.themes.length > 0 && <EntityList title="Themes" entities={mangaDetailData.themes} />}
+          {mangaDetailData.authors.length > 0 && <EntityList title="Producers" entities={mangaDetailData.authors} />}
 
-            <EntityList title="Genres" entities={mangaDetailData.genres} />
-            {mangaDetailData.themes.length > 0 && <EntityList title="Themes" entities={mangaDetailData.themes} />}
-            {mangaDetailData.authors.length > 0 && <EntityList title="Producers" entities={mangaDetailData.authors} />}
-
-            <View style={styles.buttonContainer}>
-              {mangaDetailData.url && <DetailButton icon="open-outline" text="View on MyAnimeList" onPress={handleOpenLink} />}
-            </View>
+          <View style={styles.buttonContainer}>
+            {mangaDetailData.url && (
+              <DetailButton
+                icon="open-outline"
+                text="View on MyAnimeList"
+                onPress={async () => await openExternalLink(mangaDetailData.url, showSnackbar)}
+              />
+            )}
           </View>
-        </ScrollView>
-      ) : (
-        <ErrorState message="Manga not found" onBack={handleBack} />
-      )}
+        </View>
+      </ScrollView>
     </View>
   );
-}
-
-export default function MangaDetailScreen() {
-  return (
-    <Provider store={store}>
-      <MangaDetailContent />
-    </Provider>
-  );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -96,3 +84,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default MangaDetailView;

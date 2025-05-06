@@ -1,12 +1,23 @@
 import { View, StyleSheet } from 'react-native';
+import { router } from 'expo-router';
+import { ErrorState } from '@/components/shared/error-state/error-state';
+import { LoadingState } from '@/components/shared/loading-state/loading-state';
 import { MediaList } from '@/components/shared/media-list/media-list';
 import { MangaType } from '@/constants/mediaFilters';
 import { useManga } from '@/hooks/useManga';
 
-export default function MangaPage() {
+const MangaPage = () => {
   const { manga, pagination, isLoading, isFetching, error, refetch, setFilter, nextPage, prevPage, goToPage, currentPage, queryParams } = useManga();
 
   const currentFilter = queryParams.filter as MangaType | undefined;
+
+  const handleBack = () => {
+    router.push('/home');
+  };
+
+  if (isLoading) return <LoadingState />;
+  if (error) return <ErrorState message="Failed to load manga list" subtext="Please try again later" onBack={handleBack} />;
+  if (manga.length === 0) return <ErrorState message="No manga found" onBack={handleBack} />;
 
   return (
     <View style={styles.container}>
@@ -14,10 +25,7 @@ export default function MangaPage() {
         title="Top Manga"
         type="manga"
         data={manga}
-        isLoading={isLoading}
         isFetching={isFetching}
-        error={error}
-        retryCount={0}
         refetch={refetch}
         pagination={pagination}
         currentPage={currentPage}
@@ -29,7 +37,7 @@ export default function MangaPage() {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -37,3 +45,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f8f8',
   },
 });
+
+export default MangaPage;
