@@ -30,7 +30,7 @@ export interface Anime extends BaseMedia {
   episodes?: number;
   airing: boolean;
   aired: AnimeAired;
-  duration: string;
+  duration?: string;
   rating: string;
   season: string;
   year: number;

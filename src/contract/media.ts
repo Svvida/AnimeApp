@@ -28,8 +28,8 @@ export interface BaseMedia {
   title_japanese: string;
   type: string;
   status: string;
-  score: number;
-  scored_by: number;
+  score?: number;
+  scored_by?: number;
   rank: number;
   popularity: number;
   members: number;

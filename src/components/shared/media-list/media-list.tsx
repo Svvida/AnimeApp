@@ -13,10 +13,7 @@ interface MediaListProps<F extends string | undefined> {
   title: string;
   type: MediaType;
   data: BaseMedia[];
-  isLoading: boolean;
   isFetching: boolean;
-  error: unknown;
-  retryCount: number;
   refetch: () => void;
   pagination?: Pagination;
   currentPage: number;
@@ -31,7 +28,6 @@ export const MediaList = <F extends string | undefined>({
   title,
   type,
   data,
-  isLoading,
   isFetching,
   refetch,
   pagination,
@@ -74,20 +70,22 @@ export const MediaList = <F extends string | undefined>({
     }
   };
 
-  if (isLoading && !isFetching) {
-    return <ActivityIndicator />;
-  }
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>{title}</Text>
+        {isFetching && <ActivityIndicator size="small" color="#0066cc" />}
+      </View>
+
       <MediaFilter<F> currentFilter={filterValue} onFilterChange={onFilterChange} filters={getFilters()} />
+
       <FlatList
         data={uniqueItems}
         renderItem={({ item }) => <MediaCard item={item} onPress={() => handleItemPress(item)} type={type} />}
         keyExtractor={item => item.mal_id.toString()}
-        refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refetch} />}
+        refreshControl={<RefreshControl refreshing={isFetching} onRefresh={refetch} />}
       />
+
       <Paginator pagination={pagination} currentPage={currentPage} onPageChange={onPageChange} onNextPage={onNextPage} onPrevPage={onPrevPage} />
     </View>
   );
@@ -98,60 +96,16 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#f8f8f8',
   },
-  centerContainer: {
-    flex: 1,
-    justifyContent: 'center',
+  header: {
+    flexDirection: 'row',
     alignItems: 'center',
-    padding: 20,
+    justifyContent: 'space-between',
+    marginBottom: 10,
   },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 10,
     color: '#333',
-  },
-  listContent: {
-    paddingBottom: 12,
-  },
-  emptyContainer: {
-    padding: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  emptyText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#666',
-    marginBottom: 8,
-  },
-  emptySubtext: {
-    fontSize: 14,
-    color: '#888',
-    textAlign: 'center',
-  },
-  errorText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#d32f2f',
-    marginBottom: 8,
-  },
-  errorSubtext: {
-    fontSize: 14,
-    color: '#888',
-    textAlign: 'center',
-  },
-  refreshIndicator: {
-    alignItems: 'center',
-    paddingVertical: 8,
-  },
-  retryText: {
-    fontSize: 12,
-    color: '#d32f2f',
-    marginTop: 4,
-  },
-  errorType: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 8,
   },
 });

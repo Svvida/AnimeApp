@@ -1,4 +1,3 @@
-// src/components/reviews/_components/ReactionDisplay.tsx
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -6,11 +5,10 @@ import { Ionicons } from '@expo/vector-icons';
 interface ReactionDisplayProps {
   label: string;
   count: number;
-  iconName: keyof typeof Ionicons.glyphMap; // Ensures a valid icon name is passed
+  iconName: keyof typeof Ionicons.glyphMap;
 }
 
 export const ReactionDisplay: React.FC<ReactionDisplayProps> = ({ label, count, iconName }) => {
-  // Don't render anything if the count is zero
   if (count === 0) {
     return null;
   }
@@ -18,7 +16,6 @@ export const ReactionDisplay: React.FC<ReactionDisplayProps> = ({ label, count, 
   return (
     <View style={styles.reactionChip}>
       <Ionicons name={iconName} size={16} color="#555" style={styles.reactionIcon} />
-      {/* Display the count first, then the label for clarity */}
       <Text style={styles.reactionText}>
         <Text style={styles.reactionCount}>{count}</Text> {label}
       </Text>
@@ -48,6 +45,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold', // Make the number stand out
   },
 });
-
-// No default export needed if you import it directly as { ReactionDisplay }
-// export default ReactionDisplay;

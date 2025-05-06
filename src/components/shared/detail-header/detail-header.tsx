@@ -10,7 +10,9 @@ export const Header = ({ onBack, title = 'Details' }: HeaderProps) => (
     <TouchableOpacity style={styles.backButton} onPress={onBack}>
       <Ionicons name="arrow-back" size={24} color="#333" />
     </TouchableOpacity>
-    <Text style={styles.headerTitle}>{title}</Text>
+    <Text style={styles.headerTitle} numberOfLines={2} ellipsizeMode="tail">
+      {title}
+    </Text>
   </View>
 );
 
@@ -32,6 +34,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   headerTitle: {
+    flex: 1,
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',

@@ -10,7 +10,7 @@ export const MangaInformation = ({ mangaDetail }: { mangaDetail: MangaDetail }) 
         <InfoItem label="Status" value={mangaDetail.status} />
         <InfoItem label="Chapters" value={mangaDetail.chapters != null ? mangaDetail.chapters : 'Unknown'} />
         <InfoItem label="Volumes" value={mangaDetail.volumes != null ? mangaDetail.volumes : 'Unknown'} />
-        <InfoItem label="Scored By" value={mangaDetail.scored_by.toLocaleString()} />
+        <InfoItem label="Scored By" value={mangaDetail.scored_by != null ? mangaDetail.scored_by.toLocaleString() : 'Unknown'} />
         <InfoItem label="Rank" value={`#${mangaDetail.rank}`} />
         <InfoItem label="Popularity" value={`#${mangaDetail.popularity}`} />
       </View>

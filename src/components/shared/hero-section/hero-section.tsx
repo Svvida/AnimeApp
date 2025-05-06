@@ -12,13 +12,19 @@ export const HeroSection = ({ media }: { media: BaseMedia }) => {
       <View style={styles.heroContent}>
         <Image source={{ uri: imageUrl }} style={styles.posterImage} resizeMode="cover" />
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{media.title_english || media.title}</Text>
-          {media.title_japanese && <Text style={styles.japaneseTitle}>{media.title_japanese}</Text>}
+          <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+            {media.title_english || media.title}
+          </Text>
+          {media.title_japanese && (
+            <Text style={styles.japaneseTitle} numberOfLines={2} ellipsizeMode="tail">
+              {media.title_japanese}
+            </Text>
+          )}
           <View style={styles.infoRow}>
             <Text style={styles.type}>{media.type}</Text>
             <View style={styles.scoreContainer}>
               <Ionicons name="star" size={16} color="#FFC107" />
-              <Text style={styles.score}>{media.score.toFixed(1)}</Text>
+              <Text style={styles.score}>{media.score?.toFixed(1)}</Text>
             </View>
           </View>
         </View>

@@ -9,11 +9,11 @@ export const AnimeInformation = ({ animeDetail }: { animeDetail: AnimeDetail }) 
       <View style={styles.infoGrid}>
         <InfoItem label="Status" value={animeDetail.status} />
         <InfoItem label="Episoded" value={animeDetail.episodes != null ? animeDetail.episodes : 'Unknown'} />
-        <InfoItem label="Duration" value={animeDetail.duration} />
+        <InfoItem label="Duration" value={animeDetail.duration != null ? animeDetail.duration : 'Unknown'} />
         <InfoItem label="Rating" value={animeDetail.rating} />
         <InfoItem label="Season" value={`${animeDetail.season.charAt(0).toUpperCase() + animeDetail.season.slice(1)} ${animeDetail.year}`} />
         <InfoItem label="Source" value={animeDetail.source} />
-        <InfoItem label="Scored By" value={animeDetail.scored_by.toLocaleString()} />
+        <InfoItem label="Scored By" value={animeDetail.scored_by != null ? animeDetail.scored_by.toLocaleString() : 'Unknown'} />
         <InfoItem label="Rank" value={`#${animeDetail.rank}`} />
         <InfoItem label="Popularity" value={`#${animeDetail.popularity}`} />
       </View>
