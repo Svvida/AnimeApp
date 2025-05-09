@@ -23,7 +23,6 @@ const ReviewDetailView = () => {
   const reviewId = id ? parseInt(id, 10) : undefined;
   const [isReady, setIsReady] = useState(false);
 
-  // Check if the currently stored review matches the ID from the URL
   const review = reviewFromStore && reviewFromStore.mal_id === reviewId ? reviewFromStore : null;
 
   useEffect(() => {
@@ -40,7 +39,6 @@ const ReviewDetailView = () => {
     await openExternalLink(url, showSnackbar);
   };
 
-  // Error and loading states
   if (!reviewId) {
     return <ErrorState message="Review ID missing." onBack={() => router.push('/reviews')} />;
   }
@@ -61,7 +59,6 @@ const ReviewDetailView = () => {
       <Stack.Screen options={{ title: `Review by ${currentReview.user.username}` }} />
 
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        {/* Anime Information Section */}
         <AnimeSection
           entry={currentReview.entry}
           score={currentReview.score}
@@ -71,7 +68,6 @@ const ReviewDetailView = () => {
           onOpenLink={handleOpenLink}
         />
 
-        {/* Reviewer Information Section */}
         <ReviewerSection
           user={currentReview.user}
           date={currentReview.date}
@@ -80,10 +76,8 @@ const ReviewDetailView = () => {
           onOpenLink={handleOpenLink}
         />
 
-        {/* Review Content Section */}
         <ReviewContent content={currentReview.review} />
 
-        {/* Reactions Section */}
         <ReactionsSection reactions={currentReview.reactions} />
       </ScrollView>
     </>

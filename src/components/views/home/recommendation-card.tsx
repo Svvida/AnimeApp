@@ -2,10 +2,11 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { RecommendationEntry } from '@/contract/general';
+import { MediaType } from '@/types/media-types';
 
 interface RecommendationCardProps {
   item: RecommendationEntry;
-  type: 'anime' | 'manga';
+  type: MediaType;
 }
 
 export const RecommendationCard: React.FC<RecommendationCardProps> = ({ item, type }) => {

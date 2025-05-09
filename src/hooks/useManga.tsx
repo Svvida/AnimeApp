@@ -15,7 +15,6 @@ export const useManga = (
 
   const { data, error, isLoading, isFetching, refetch } = useGetTopMangasQuery(queryParams);
 
-  // Update query params when page or page size changes
   useEffect(() => {
     setQueryParams(prev => ({
       ...prev,
@@ -28,7 +27,7 @@ export const useManga = (
     setQueryParams(prev => ({
       ...prev,
       filter,
-      page: 1, // Reset to first page when changing filter
+      page: 1,
     }));
     setCurrentPage(1);
   };
@@ -53,7 +52,7 @@ export const useManga = (
 
   const changePageSize = (size: number) => {
     setPageSize(size);
-    setCurrentPage(1); // Reset to first page when changing page size
+    setCurrentPage(1);
   };
 
   return {

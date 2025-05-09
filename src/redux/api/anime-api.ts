@@ -13,7 +13,6 @@ import { AnimeReviewsQueryParams, ReviewResponse } from '@/contract/review';
 
 export const animeApi = Api.injectEndpoints({
   endpoints: builder => ({
-    // Current season anime with filtering options
     getCurrentSeasonAnime: builder.query<IAnimeCurrentSeasonResponse, AnimeQueryParams | void>({
       query: (params?: AnimeQueryParams) => {
         const queryParams = new URLSearchParams();
@@ -48,12 +47,10 @@ export const animeApi = Api.injectEndpoints({
       providesTags: ['anime'],
     }),
 
-    // Search for anime with various parameters
     searchAnime: builder.query<ApiResponse<Anime>, AnimeSearchParams>({
       query: params => {
         const queryParams = new URLSearchParams();
 
-        // Add all search parameters to the query
         Object.entries(params).forEach(([key, value]: [string, unknown]) => {
           if (value !== undefined && value !== null) {
             queryParams.append(key, value.toString());
@@ -65,7 +62,6 @@ export const animeApi = Api.injectEndpoints({
       providesTags: ['anime'],
     }),
 
-    // Get anime by ID
     getAnimeById: builder.query<AnimeDetail, IGetAnimeByIdRequest>({
       query: ({ id }) => ({
         method: 'GET',
@@ -75,7 +71,6 @@ export const animeApi = Api.injectEndpoints({
       transformResponse: (response: { data: AnimeDetail }) => response.data,
     }),
 
-    // Get anime recommendations
     getAnimeRecommendations: builder.query<AnimeRecommendationResponse, void>({
       query: () => ({
         method: 'GET',
@@ -84,7 +79,6 @@ export const animeApi = Api.injectEndpoints({
       providesTags: ['recommendations'],
     }),
 
-    // Get random anime
     getRandomAnime: builder.query<AnimeDetail, void>({
       query: () => ({
         method: 'GET',
@@ -97,14 +91,12 @@ export const animeApi = Api.injectEndpoints({
       query: (params?: AnimeReviewsQueryParams) => {
         const queryParams = new URLSearchParams();
 
-        // Only append if the value is explicitly true or false
         if (params?.preliminary === true || params?.preliminary === false) {
           queryParams.append('preliminary', params.preliminary.toString());
         }
         if (params?.spoilers === true || params?.spoilers === false) {
           queryParams.append('spoilers', params.spoilers.toString());
         }
-        // No page parameter
 
         const queryString = queryParams.toString();
         return `/reviews/anime${queryString ? `?${queryString}` : ''}`;

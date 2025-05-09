@@ -5,22 +5,21 @@ import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { RecommendationCard } from './recommendation-card';
 import { RecommendationEntry, RecommendationItem } from '@/contract/general';
+import { MediaType } from '@/types/media-types';
 
 interface RecommendationListProps {
   title: string;
   data?: RecommendationItem[];
   isLoading: boolean;
   error?: FetchBaseQueryError | SerializedError | undefined;
-  type: 'anime' | 'manga';
+  type: MediaType;
   onViewAllPress?: () => void;
 }
 
 export const RecommendationList: React.FC<RecommendationListProps> = ({ title, data, isLoading, error, type, onViewAllPress }) => {
-  // Extract unique entries from recommendations and flatten them
   const entries = useMemo(() => {
     if (!data) return [];
 
-    // First, collect all entries from all recommendation items
     const allEntries: RecommendationEntry[] = [];
     data.forEach(item => {
       item.entry.forEach(entry => {
@@ -28,7 +27,6 @@ export const RecommendationList: React.FC<RecommendationListProps> = ({ title, d
       });
     });
 
-    // Then filter out duplicates by mal_id
     const uniqueEntries: RecommendationEntry[] = [];
     const seenIds = new Set();
 
@@ -39,7 +37,6 @@ export const RecommendationList: React.FC<RecommendationListProps> = ({ title, d
       }
     });
 
-    // Return limited number of entries
     return uniqueEntries.slice(0, 20);
   }, [data]);
 

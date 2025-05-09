@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "UniversityMobile",
-    "slug": "UniversityMobile",
+    "name": "MyAnime",
+    "slug": "MyAnime",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
@@ -18,9 +18,9 @@
       "userInterfaceStyle": "light",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/icon.png",
-        "backgroundColor": "#7043b0"
+        "backgroundColor": "#7521ed"
       },
-      "package": "com.swida.UniversityMobile"
+      "package": "com.swida.MyAnime"
     },
     "web": {
       "bundler": "metro",
@@ -33,7 +33,7 @@
         "expo-splash-screen",
         {
           "image": "./src/assets/images/splash.png",
-          "backgroundColor": "#7043b0",
+          "backgroundColor": "#7521ed",
           "imageWidth": 600,
           "resizeMode": "cover"
         }

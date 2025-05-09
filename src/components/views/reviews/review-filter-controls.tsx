@@ -3,17 +3,16 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 interface ReviewFilterControlsProps {
-  spoilersFilter: boolean | undefined; // Use undefined for 'any'
-  preliminaryFilter: boolean | undefined; // Use undefined for 'any'
+  spoilersFilter: boolean | undefined;
+  preliminaryFilter: boolean | undefined;
   onSpoilersChange: (value: boolean | undefined) => void;
   onPreliminaryChange: (value: boolean | undefined) => void;
 }
 
-// Cycle through undefined -> true -> false -> undefined
 const getNextFilterState = (currentState: boolean | undefined): boolean | undefined => {
   if (currentState === undefined) return true;
   if (currentState) return false;
-  return undefined; // Cycle back to undefined (any)
+  return undefined;
 };
 
 const getFilterButtonState = (filterValue: boolean | undefined): { text: string; icon: keyof typeof Ionicons.glyphMap; color: string } => {
@@ -59,11 +58,11 @@ export const ReviewFilterControls: React.FC<ReviewFilterControlsProps> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-around', // Space out filter groups
+    justifyContent: 'space-around',
     alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 16,
-    backgroundColor: '#f0f0f0', // Light background for filter area
+    backgroundColor: '#f0f0f0',
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
   },
@@ -82,8 +81,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 15, // More rounded
-    minWidth: 70, // Ensure minimum width for consistency
+    borderRadius: 15,
+    minWidth: 70,
     justifyContent: 'center',
   },
   icon: {

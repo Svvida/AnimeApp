@@ -16,7 +16,7 @@ const AppBar: React.FC = () => {
   const animatedLogoStyle = useTransformFade({ direction: 'bottom' });
 
   const handleProfileClick = () => {
-    navigation.navigate('profile');
+    navigation.navigate('home');
   };
 
   return (

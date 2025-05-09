@@ -27,21 +27,21 @@ const styles = StyleSheet.create({
   reactionChip: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0', // Light grey background
-    borderRadius: 16, // Pill shape
+    backgroundColor: '#f0f0f0',
+    borderRadius: 16,
     paddingVertical: 5,
     paddingHorizontal: 10,
-    marginRight: 8, // Spacing between chips
-    marginBottom: 8, // Spacing for wrapping
+    marginRight: 8,
+    marginBottom: 8,
   },
   reactionIcon: {
-    marginRight: 5, // Space between icon and text
+    marginRight: 5,
   },
   reactionText: {
     fontSize: 13,
-    color: '#444', // Darker grey text
+    color: '#444',
   },
   reactionCount: {
-    fontWeight: 'bold', // Make the number stand out
+    fontWeight: 'bold',
   },
 });

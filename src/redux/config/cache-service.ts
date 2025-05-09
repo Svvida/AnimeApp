@@ -1,16 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Define cache structure with data, etag, fingerprint, and expiration
 export interface CacheEntry<T> {
   data: T;
   etag: string;
-  expires: number; // Timestamp when the cache expires
+  expires: number;
 }
 
 const CACHE_PREFIX = 'api_cache:';
 
 export const apiCache = {
-  // Get cached data for a given key
   async get<T>(key: string): Promise<CacheEntry<T> | null> {
     try {
       const storedData = await AsyncStorage.getItem(CACHE_PREFIX + key);
@@ -30,10 +28,9 @@ export const apiCache = {
     }
   },
 
-  // Save data to cache with an expiration time
   async set<T>(key: string, data: T, etag: string): Promise<void> {
     try {
-      const expires = Date.now() + 24 * 60 * 60 * 1000; // Default to 24 hours
+      const expires = Date.now() + 24 * 60 * 60 * 1000;
 
       const entry: CacheEntry<T> = { data, etag, expires };
 
@@ -43,7 +40,6 @@ export const apiCache = {
     }
   },
 
-  // Remove data from cache
   async remove(key: string): Promise<void> {
     try {
       await AsyncStorage.removeItem(CACHE_PREFIX + key);
@@ -52,7 +48,6 @@ export const apiCache = {
     }
   },
 
-  // Clear all cache entries
   async clear(): Promise<void> {
     try {
       const keys = await AsyncStorage.getAllKeys();

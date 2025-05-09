@@ -8,7 +8,6 @@ interface ReviewItemProps {
 }
 
 export const ReviewListItem: React.FC<ReviewItemProps> = ({ review, onPress }) => {
-  // Function to truncate review text for preview
   const truncateText = (text: string, maxLength: number) => {
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength) + '...';

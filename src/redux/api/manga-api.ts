@@ -3,7 +3,6 @@ import { IGetMangaByIdRequest, IGetTopMangasResponse, Manga, MangaDetail, MangaQ
 
 export const mangaApi = Api.injectEndpoints({
   endpoints: builder => ({
-    // Get manga recommendations
     getMangaRecommendations: builder.query<MangaRecommendationResponse, void>({
       query: () => ({
         method: 'GET',
@@ -12,7 +11,6 @@ export const mangaApi = Api.injectEndpoints({
       providesTags: ['recommendations'],
     }),
 
-    // Get manga by ID
     getMangaById: builder.query<MangaDetail, IGetMangaByIdRequest>({
       query: ({ id }) => ({
         method: 'GET',
@@ -22,7 +20,6 @@ export const mangaApi = Api.injectEndpoints({
       transformResponse: (response: { data: MangaDetail }) => response.data,
     }),
 
-    // Get random manga
     getRandomManga: builder.query<Manga, void>({
       query: () => ({
         method: 'GET',
@@ -31,25 +28,12 @@ export const mangaApi = Api.injectEndpoints({
       providesTags: ['manga'],
     }),
 
-    // Get top mangas
     getTopMangas: builder.query<IGetTopMangasResponse, MangaQueryParams | void>({
       query: (params?: MangaQueryParams) => {
         const queryParams = new URLSearchParams();
 
         if (params?.filter) {
-          queryParams.append('filter', params.filter);
-        }
-
-        if (params?.sfw) {
-          queryParams.append('sfw', params.sfw.toString());
-        }
-
-        if (params?.unapproved) {
-          queryParams.append('unapproved', params.unapproved.toString());
-        }
-
-        if (params?.continuing) {
-          queryParams.append('continuing', params.continuing.toString());
+          queryParams.append('type', params.filter);
         }
 
         if (params?.page) {
